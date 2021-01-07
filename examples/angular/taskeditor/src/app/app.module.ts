@@ -1,19 +1,31 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ErrorHandler } from '@angular/core';
-import { AppErrorHandler } from './error.handler';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {SocketIoModule, SocketIoConfig} from 'ngx-socket-io';
 
-import { AppComponent } from './app.component';
-import { BryntumAngularSharedModule } from 'bryntum-angular-shared';
+import {AppComponent} from './app.component';
+import {DocumentListComponent} from './components/document-list/document-list.component';
+import {DocumentComponent} from './components/document/document.component';
+
+const config: SocketIoConfig = {
+    url: 'http://localhost:4444', options: {
+        withCredentials: false,
+    }
+};
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        DocumentListComponent,
+        DocumentComponent
     ],
     imports: [
         BrowserModule,
-        BryntumAngularSharedModule
+        FormsModule,
+        SocketIoModule.forRoot(config)
     ],
-    providers: [{ provide : ErrorHandler, useClass : AppErrorHandler }],
+    providers: [],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

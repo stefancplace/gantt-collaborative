@@ -1,19 +1,14 @@
-<script>
-    document.location = 'dist/taskeditor/index.html';
-</script>
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    var socket = io();
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SocketApp</title>
+    <base href="/">
 
-    var form = document.getElementById('form');
-    var input = document.getElementById('input');
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        if (input.value) {
-            socket.emit('chat message', input.value);
-            input.value = '';
-        }
-    });
-
-</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+<app-root></app-root>
+</body>
+</html>
