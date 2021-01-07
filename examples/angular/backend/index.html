@@ -1,0 +1,30 @@
+<html>
+<body>
+
+<form action="/action_page.php" id="form">
+    <label for="input">First name:</label><br>
+    <input type="text" id="input" name="input" value="John"><br>
+    <input type="submit" value="Submit">
+</form>
+
+<p>If you click the "Submit" button, the form-data will be sent to a page called "/action_page.php".</p>
+
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io();
+
+    var form = document.getElementById('form');
+    var input = document.getElementById('input');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (input.value) {
+            socket.emit('chat message', input.value);
+            input.value = '';
+        }
+    });
+
+</script>
+</html>
+
