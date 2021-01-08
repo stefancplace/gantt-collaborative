@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DocumentService } from 'src/app/services/document.service';
 import { Observable, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
-import { Task } from './models/task';
 import ganttConfig from './ganttConfig';
+import { TaskStoreService } from './services/task-store.service';
 
 @Component({
     selector: 'app-root',
@@ -15,7 +14,7 @@ export class AppComponent implements OnInit {
     ganttConfig = ganttConfig;
     private taskSubscription: Subscription;
 
-    constructor(private documentService: DocumentService) {
+    constructor(private documentService: TaskStoreService) {
     }
 
     ngOnInit() {
