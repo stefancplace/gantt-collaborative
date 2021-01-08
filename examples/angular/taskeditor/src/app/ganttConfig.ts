@@ -15,15 +15,10 @@ class MyModel extends TaskModel {
 
 const project = new ProjectModel({
     taskModelClass : MyModel as unknown as TaskModel,
-    transport : {
-        load : {
-            url : 'assets/data/launch-saas.json'
-        }
-    },
     autoLoad  : true
 });
 
-export default {
+const ganttConfig = {
     dependencyIdField : 'sequenceNumber',
 
     columns  : [
@@ -77,3 +72,6 @@ export default {
     },
     project
 };
+
+export default ganttConfig;
+

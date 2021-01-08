@@ -1,2 +1,13 @@
-<app-document-list></app-document-list>
-<app-document></app-document>
+<header>
+    <h1><a id="title" href="../../../../#example-angular-taskeditor">Angular Task editor customization demo</a></h1>
+
+    <bry-fullscreen></bry-fullscreen>
+</header>
+<bry-gantt
+    #gantt
+    [columns]  = "ganttConfig.columns"
+    [project]  = "ganttConfig.project"
+    [taskEdit] = "ganttConfig.features.taskEdit"
+    [taskRenderer] = "ganttConfig.taskRenderer"
+></bry-gantt>
+
