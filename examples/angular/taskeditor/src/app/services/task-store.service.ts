@@ -11,15 +11,15 @@ export class TaskStoreService {
     constructor(private socket: Socket) {
     }
 
-    getDocument(id: string) {
+    getTaskStore(id: string) {
         this.socket.emit('getDoc', id);
     }
 
-    newDocument(task: TaskStore | { task: TaskStore }) {
+    addTaskStore(task: TaskStore | { task: TaskStore }) {
         this.socket.emit('addDoc', task);
     }
 
-    editDocument(taskStore: TaskStore | { taskStore: TaskStore }) {
+    updateTaskStore(taskStore: TaskStore | { taskStore: TaskStore }) {
         this.socket.emit('editDoc', taskStore);
     }
 }
