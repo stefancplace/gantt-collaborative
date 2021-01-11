@@ -6,20 +6,20 @@ import { TaskStore } from 'bryntum-gantt/gantt.lite.umd.js';
     providedIn: 'root'
 })
 export class TaskStoreService {
-    tasks = this.socket.fromEvent<string[]>('documents');
+    tasks = this.socket.fromEvent<string[]>('TaskStore');
 
     constructor(private socket: Socket) {
     }
 
-    getTaskStore(id: string) {
-        this.socket.emit('getDoc', id);
+    readTaskStore(id: string) {
+        this.socket.emit('readTaskStore', id);
     }
 
-    addTaskStore(task: TaskStore | { task: TaskStore }) {
-        this.socket.emit('addDoc', task);
+    createTaskStore(task: TaskStore | { task: TaskStore }) {
+        this.socket.emit('createTaskStore', task);
     }
 
     updateTaskStore(taskStore: TaskStore | { taskStore: TaskStore }) {
-        this.socket.emit('editDoc', taskStore);
+        this.socket.emit('updateTaskStore', taskStore);
     }
 }

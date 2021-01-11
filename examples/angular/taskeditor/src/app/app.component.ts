@@ -13,13 +13,13 @@ export class AppComponent implements OnInit {
     ganttConfig = ganttConfig;
     private taskSubscription: Subscription;
 
-    constructor(private documentService: TaskStoreService) {
+    constructor(private taskStoreService: TaskStoreService) {
     }
 
     ngOnInit() {
-        this.tasks = this.documentService.tasks;
+        this.tasks = this.taskStoreService.tasks;
         this.loadTask();
-        this.taskSubscription = this.documentService.tasks.subscribe(async task => {
+        this.taskSubscription = this.taskStoreService.tasks.subscribe(async task => {
             console.log('task: ' + task);
             this.ganttConfig.project.taskStore.json = task;
             await this.ganttConfig.project.commitAsync();
@@ -27,12 +27,12 @@ export class AppComponent implements OnInit {
 
         this.ganttConfig.project.taskStore.on('update', (me, record, operation, modifiedFieldNames, eOpts) => {
             console.log('change: ' + me);
-            this.documentService.updateTaskStore(this.ganttConfig.project.taskStore);
+            this.taskStoreService.updateTaskStore(this.ganttConfig.project.taskStore);
         });
     }
 
     loadTask() {
-        this.documentService.getTaskStore('0');
+        this.taskStoreService.readTaskStore('0');
     }
 
     ngOnDestroy() {

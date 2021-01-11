@@ -174,21 +174,21 @@ io.on('connection', socket => {
         previousId = currentId;
     }
 
-    socket.on('getDoc', docId => {
+    socket.on('readTaskStore', docId => {
         safeJoin(docId);
-        io.emit('documents', taskStore);
+        io.emit('TaskStore', taskStore);
     });
 
-    socket.on('addDoc', doc => {
+    socket.on('createTaskStore', doc => {
         tasks[doc.id] = doc;
         safeJoin(doc.id);
-        io.emit('documents', Object.keys(taskStore));
-        socket.emit('document', doc);
+        io.emit('TaskStore', Object.keys(taskStore));
+        socket.emit('TaskStore', doc);
     });
 
-    socket.on('editDoc', doc => {
+    socket.on('updateTaskStore', doc => {
         taskStore = doc;
-        io.emit('documents', taskStore);
+        io.emit('TaskStore', taskStore);
     });
 
 
