@@ -1,5 +1,8 @@
 ## Live demo
 
+![collaborative-gantt](collaborative-gantt.gif)
+
+
 ### Backend
 ```
 cd examples/angular/backend 
