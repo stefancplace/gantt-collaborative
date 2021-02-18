@@ -6,6 +6,8 @@ import { AppErrorHandler } from './error.handler';
 
 import { AppComponent } from './app.component';
 import { BryntumAngularSharedModule } from 'bryntum-angular-shared';
+import { InjectableRxStompConfig, RxStompService, rxStompServiceFactory } from "@stomp/ng2-stompjs";
+import { myRxStompConfig } from "./my-rx-stomp.config";
 
 
 const config: SocketIoConfig = {
@@ -24,7 +26,15 @@ const config: SocketIoConfig = {
         SocketIoModule.forRoot(config),
         BryntumAngularSharedModule
     ],
-    providers: [{ provide : ErrorHandler, useClass : AppErrorHandler }],
+    providers: [{ provide : ErrorHandler, useClass : AppErrorHandler },{
+        provide: InjectableRxStompConfig,
+        useValue: myRxStompConfig,
+    },
+        {
+            provide: RxStompService,
+            useFactory: rxStompServiceFactory,
+            deps: [InjectableRxStompConfig],
+        },],
     bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import ganttConfig from './ganttConfig';
-import { TaskStoreService } from './services/task-store.service';
+import { RxStompService } from "@stomp/ng2-stompjs";
+import { Message } from '@stomp/stompjs';
 
 @Component({
     selector: 'app-root',
@@ -9,36 +10,29 @@ import { TaskStoreService } from './services/task-store.service';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-    tasks: Observable<string[]>;
     ganttConfig = ganttConfig;
-    private taskSubscription: Subscription;
+    public receivedMessages: string[] = [];
+    private topicSubscription: Subscription;
 
-    constructor(private taskStoreService: TaskStoreService) {
+    constructor(private rxStompService: RxStompService) {
     }
 
     ngOnInit() {
-        this.tasks = this.taskStoreService.tasks;
-        this.loadTask();
-        this.taskSubscription = this.taskStoreService.tasks.subscribe(async task => {
-            console.log('task: ' + task);
-            this.ganttConfig.project.taskStore.json = task;
-            await this.ganttConfig.project.commitAsync();
-        });
-
-        this.ganttConfig.project.taskStore.on('update', (me, record, operation, modifiedFieldNames, eOpts) => {
-            console.log('change: ' + me);
-            this.taskStoreService.updateTaskStore(this.ganttConfig.project.taskStore);
-        });
-    }
-
-    loadTask() {
-        this.taskStoreService.readTaskStore('0');
+        this.topicSubscription = this.rxStompService
+            .watch('/topic/demo')
+            .subscribe((message: Message) => {
+                this.receivedMessages.push(message.body);
+            });
     }
 
     ngOnDestroy() {
-        this.taskSubscription.unsubscribe();
+        this.topicSubscription.unsubscribe();
     }
 
+    onSendMessage() {
+        const message = `Message generated at ${new Date}`;
+        this.rxStompService.publish({destination: '/topic/demo', body: message});
+    }
 }
 
 
