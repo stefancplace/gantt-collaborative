@@ -13,6 +13,7 @@ repositories {
 }
 
 dependencies {
+	implementation group: 'org.json', name: 'json', version: '20201115'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.webjars:webjars-locator-core'
 	implementation 'org.webjars:sockjs-client:1.0.2'
