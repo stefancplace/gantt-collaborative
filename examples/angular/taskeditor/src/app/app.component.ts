@@ -10,7 +10,9 @@ import { WebSocketAPI } from './WebSocketAPI';
 })
 export class AppComponent implements OnInit {
     ganttConfig = ganttConfig;
-    public receivedMessages: string[] = [];
+    public tasks: string[] = [];
+    private taskSubscription: Subscription;
+
     title = 'angular8-springboot-websocket';
 
     webSocketAPI: WebSocketAPI;
@@ -19,19 +21,26 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this.webSocketAPI = new WebSocketAPI(new AppComponent());
         this.webSocketAPI._connect();
+        this.ganttConfig.project.taskStore.on('update', (me, record, operation, modifiedFieldNames, eOpts) => {
+            console.log('change: ' + me);
+            this.sendMessage(this.ganttConfig.project.taskStore.formattedJSON);
+        });
     }
 
     ngOnDestroy() {
         this.webSocketAPI._disconnect();
     }
 
-    sendMessage() {
-        this.webSocketAPI._send("some test");
+    sendMessage(message) {
+        this.webSocketAPI._send(message);
     }
 
     handleMessage(message) {
         console.log("Message Recieved from Server :: " + message);
-        this.ganttConfig.project.taskStore.json = JSON.parse(message);
+        this.tasks = JSON.parse(message);
+        this.ganttConfig.project.taskStore.json = this.tasks;
+        this.ganttConfig.project.commitAsync();
+
     }
 
 }
